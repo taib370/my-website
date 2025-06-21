@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>قصص الرعب</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
+        body {
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #1a0000 0%, #3a0d0d 100%);
+            color: #fff;
+            font-family: 'Creepster', cursive, Arial, sans-serif;
+        }
+        header {
+            text-align: center;
+            padding: 40px 0 20px 0;
+        }
+        h1 {
+            font-size: 4rem;
+            color: #ff0000;
+            text-shadow: 0 2px 4px #000, 0 0 10px #ff0000, 0 0 20px #800000;
+            position: relative;
+        }
+        h1::after {
+            content: '';
+            display: block;
+            width: 120px;
+            height: 18px;
+            margin: 0 auto;
+            background: linear-gradient(180deg, #ff0000 60%, transparent 100%);
+            border-radius: 50%;
+            filter: blur(2px);
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 90%;
+        }
+        nav {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        nav a {
+            color: #fff;
+            background: #800000;
+            padding: 10px 30px;
+            margin: 0 10px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 1.3rem;
+            font-family: inherit;
+            box-shadow: 0 0 10px #ff0000a0;
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+        nav a:hover {
+            background: #ff0000;
+            box-shadow: 0 0 30px #ff0000;
+        }
+        /* نموذج اقتراح قصة */
+        .add-movie-form {
+            background: #2d0d0d;
+            border: 2px solid #800000;
+            border-radius: 18px;
+            box-shadow: 0 0 20px #80000080;
+            padding: 20px;
+            margin: 30px auto 40px auto;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .add-movie-form input,
+        .add-movie-form textarea {
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #800000;
+            background: #1a0000;
+            color: #fff;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+        .add-movie-form button {
+            padding: 10px 0;
+            background: #800000;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-family: inherit;
+            cursor: pointer;
+            box-shadow: 0 0 10px #ff0000a0;
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+        .add-movie-form button:hover {
+            background: #ff0000;
+            box-shadow: 0 0 30px #ff0000;
+        }
+        .movies {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            padding: 0 30px 40px 30px;
+        }
+        .movie-card {
+            background: #2d0d0d;
+            border: 3px solid #800000;
+            border-radius: 18px;
+            width: 260px;
+            box-shadow: 0 0 30px #80000080;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            cursor: pointer;
+        }
+        .movie-card:hover {
+            transform: scale(1.05) rotate(-1deg);
+            box-shadow: 0 0 60px #ff0000;
+        }
+        .movie-card img {
+            width: 100%;
+            height: 340px;
+            object-fit: cover;
+            display: block;
+        }
+        .movie-card h2 {
+            font-size: 2rem;
+            margin: 10px 0 0 0;
+            color: #ff0000;
+            text-shadow: 0 0 10px #800000;
+            font-family: 'Creepster', cursive, Arial, sans-serif;
+        }
+        .movie-card p {
+            padding: 0 15px 15px 15px;
+            color: #fff;
+            font-size: 1.1rem;
+            text-shadow: 0 0 5px #000;
+        }
+        .blood-drip {
+            width: 100%;
+            height: 60px;
+            background: linear-gradient(180deg, #ff0000 60%, transparent 100%);
+            border-radius: 0 0 50% 50% / 0 0 100% 100%;
+            filter: blur(1.5px);
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            z-index: 2;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>قصص الرعب</h1>
+    </header>
+    <nav>
+        <a href="#">الرئيسية</a>
+        <a href="#">القصص</a>
+        <a href="#">اتصل بنا</a>
+    </nav>
+    <!-- نموذج اقتراح قصة (يرسل لك فقط) -->
+    <form class="add-movie-form" id="addMovieForm" action="https://formspree.io/f/yourFormID" method="POST">
+        <input type="text" name="اسم القصة" placeholder="اسم القصة" required>
+        <input type="text" name="رابط صورة القصة" placeholder="رابط صورة القصة" required>
+        <textarea name="وصف القصة" placeholder="اكتب قصتك هنا..." rows="5" required></textarea>
+        <button type="submit">اقترح قصة</button>
+    </form>
+    <div id="thanksMsg" style="display:none;text-align:center;color:#ff0000;font-size:1.2rem;margin-top:10px;">
+        تم إرسال اقتراحك بنجاح! سيتم مراجعته من الإدارة.
+    </div>
+    <div class="movies" id="moviesList">
+        <div class="movie-card" onclick="openStory('الكوخ المسكون','https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80','قصة مرعبة عن كوخ في الغابة تحدث فيه أشياء غامضة ومرعبة.')">
+            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" alt="قصة رعب">
+            <h2>الكوخ المسكون</h2>
+            <p>قصة مرعبة عن كوخ في الغابة تحدث فيه أشياء غامضة ومرعبة.</p>
+            <div class="blood-drip"></div>
+        </div>
+        <div class="movie-card" onclick="openStory('الظلال السوداء','https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80','مجموعة من الأصدقاء يواجهون قوة شريرة في منزل مهجور.')">
+            <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80" alt="قصة رعب">
+            <h2>الظلال السوداء</h2>
+            <p>مجموعة من الأصدقاء يواجهون قوة شريرة في منزل مهجور.</p>
+            <div class="blood-drip"></div>
+        </div>
+    </div>
+    <script>
+        // رسالة شكر بعد إرسال الاقتراح
+        document.getElementById('addMovieForm').onsubmit = function() {
+            setTimeout(function(){
+                document.getElementById('addMovieForm').style.display = 'none';
+                document.getElementById('thanksMsg').style.display = 'block';
+            }, 100);
+        };
+
+        // دالة فتح صفحة القصة مع تخزين البيانات
+        function openStory(title, img, desc) {
+            // نصوص قصص رعب طويلة
+            let storyText = '';
+            if (title === 'الكوخ المسكون') {
+                storyText = `في ليلة عاصفة، قرر يوسف أن يختصر طريقه عبر الغابة المظلمة. كان المطر يهطل بغزارة، والبرق يضيء السماء بين الحين والآخر. فجأة لمح كوخًا صغيرًا بين الأشجار، بدا مهجورًا منذ سنوات طويلة. دفعه الفضول والبرد إلى الاقتراب. ما إن دخل حتى شعر بقشعريرة تسري في جسده. الجدران ملطخة بآثار دماء قديمة، وأثاث الكوخ مقلوب وكأن عراكًا عنيفًا حدث هنا. سمع يوسف همسات خافتة تأتي من الزوايا المظلمة، ثم بدأت الأبواب والنوافذ تُغلق من تلقاء نفسها. حاول الهرب، لكن الكوخ بدا وكأنه يتمدد ويتحول إلى متاهة لا نهاية لها. كلما ركض أكثر، ازدادت الأصوات حوله، وبدأ يرى ظلالًا تتحرك بسرعة البرق. فجأة ظهر أمامه وجه شاحب بعيون دامية يصرخ: "لن تخرج من هنا أبدًا!"... ومنذ تلك الليلة، لم يُشاهد يوسف مجددًا، وكل من اقترب من الكوخ سمع صرخاته تتردد في أرجاء الغابة.`;
+            } else if (title === 'الظلال السوداء') {
+                storyText = `في إحدى الليالي المظلمة، اجتمع خمسة أصدقاء في منزل مهجور على أطراف البلدة لتحدي بعضهم البعض بقصص الرعب. مع اقتراب منتصف الليل، بدأت الظلال في الزوايا تتحرك وتتمدد، حتى غطت الجدران والسقف. فجأة انطفأت الأنوار، وعمّ الصمت الرهيب. سمعوا همسات غامضة وأصوات أقدام تقترب ببطء. حاولوا الهرب، لكن كل باب يفتح على غرفة أكثر ظلمة وبرودة. بدأت الظلال تبتلعهم واحدًا تلو الآخر، وكلما اختفى أحدهم، ازدادت الظلال كثافة. في الصباح، لم يُعثر إلا على دفتر صغير مكتوب عليه: "الظلال السوداء لا ترحم من يوقظها"... ومنذ ذلك اليوم، أصبح المنزل ملعونًا، وكل من يدخله يختفي للأبد.`;
+            } else {
+                storyText = desc + `<br><br><b>في منتصف الليل، ظهرت أصوات غريبة وبدأت الأشياء تتحرك من تلقاء نفسها. كل من دخل هذا المكان لم يعد كما كان...</b>`;
+            }
+            // حفظ البيانات
+            localStorage.setItem('storyTitle', title);
+            localStorage.setItem('storyImg', img);
+            localStorage.setItem('storyDesc', desc);
+            localStorage.setItem('storyText', storyText);
+            window.location.href = 'story.html';
+        }
+    </script>
+</body>
+</html>

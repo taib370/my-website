@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>تفاصيل القصة</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
+        body {
+            margin: 0;
+            background: linear-gradient(135deg, #1a0000 0%, #3a0d0d 100%);
+            color: #fff;
+            font-family: 'Creepster', cursive, Arial, sans-serif;
+            min-height: 100vh;
+        }
+        .container {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 40px;
+            padding: 60px 20px;
+            max-width: 1000px;
+            margin: auto;
+        }
+        .left {
+            width: 320px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .left img {
+            width: 100%;
+            border-radius: 18px;
+            box-shadow: 0 0 30px #80000080;
+            margin-bottom: 20px;
+        }
+        .left h2 {
+            color: #ff0000;
+            margin: 0 0 10px 0;
+            text-shadow: 0 0 10px #800000;
+            font-size: 2rem;
+        }
+        .right {
+            flex: 1;
+            background: #2d0d0d;
+            border-radius: 18px;
+            box-shadow: 0 0 30px #80000080;
+            padding: 30px;
+            font-size: 1.3rem;
+            line-height: 2.1;
+            min-height: 340px;
+            direction: rtl;
+        }
+        .back-btn {
+            display: inline-block;
+            margin: 20px 0 0 0;
+            padding: 10px 30px;
+            background: #800000;
+            color: #fff;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            box-shadow: 0 0 10px #ff0000a0;
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+        .back-btn:hover {
+            background: #ff0000;
+            box-shadow: 0 0 30px #ff0000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left">
+            <img id="storyImg" src="" alt="صورة القصة">
+            <h2 id="storyTitle"></h2>
+            <a href="BUTTON.html" class="back-btn">رجوع</a>
+        </div>
+        <div class="right">
+            <div id="storyText"></div>
+        </div>
+    </div>
+    <script>
+        // جلب بيانات القصة من LocalStorage
+        document.getElementById('storyImg').src = localStorage.getItem('storyImg') || '';
+        document.getElementById('storyTitle').textContent = localStorage.getItem('storyTitle') || '';
+        document.getElementById('storyText').innerHTML = localStorage.getItem('storyText') || '';
+    </script>
+</body>
+</html>
